@@ -1,0 +1,18 @@
+import { TicketPriority } from "@/types/tickets";
+import moment from "moment";
+
+export const formatDate = (isoDate: string) => {
+  return moment(isoDate).format("lll");
+};
+
+export function getTicketPriorityLabel(priority: TicketPriority) {
+  for (const key in TicketPriority) {
+    const val = TicketPriority[key] as any;
+
+    if (val === priority) {
+      return key;
+    }
+  }
+
+  return String(priority);
+}
