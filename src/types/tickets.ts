@@ -51,3 +51,19 @@ export const TicketStatusList = [
   TicketStatus.tested,
   TicketStatus.closed,
 ];
+
+type HistoryData = {
+  displayValue: string;
+  value: any;
+};
+
+export type TicketHistoryItem = {
+  created_at: string;
+  fieldName: string;
+  from: HistoryData | null;
+  to: HistoryData | null;
+  updatedBy: {
+    id: string;
+    username: string;
+  };
+};

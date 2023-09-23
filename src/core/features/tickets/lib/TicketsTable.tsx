@@ -5,7 +5,7 @@ import { events } from "@/constants/events";
 import { Ticket } from "@/types/tickets";
 import EventBus from "@/util/event-bus/EventBus";
 import { formatDate } from "@/util/helpers/misc.helpers";
-import { Button } from "@mui/material";
+import { Button, Tooltip, Typography } from "@mui/material";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo } from "react";
@@ -72,8 +72,15 @@ const useColumns = () => {
           header() {
             return <HeaderCell label="Summary" />;
           },
-          cell: (info) => info.getValue(),
-          footer: (info) => info.column.id,
+          cell: (info) => (
+            <div className="max-w-[300px]">
+              <Tooltip arrow title={info.getValue()}>
+                <Typography className="whitespace-nowrap truncate">
+                  {info.getValue()}
+                </Typography>
+              </Tooltip>
+            </div>
+          ),
         }),
         columnHelper.accessor("priority", {
           header() {

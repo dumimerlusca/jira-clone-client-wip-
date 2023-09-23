@@ -1,9 +1,11 @@
 "use client";
 
 import { useFetchTicketDetails } from "@/api-client/tickets";
+import { events } from "@/constants/events";
 import { Ticket } from "@/types/tickets";
+import EventBus from "@/util/event-bus/EventBus";
 import { useParams } from "next/navigation";
-import { PropsWithChildren, createContext, useContext } from "react";
+import { PropsWithChildren, createContext, useContext, useEffect } from "react";
 
 type TicketDetailsContext = {
   ticket: Ticket;
@@ -19,6 +21,16 @@ export const TicketDetailsContextProvider: React.FC<PropsWithChildren<{}>> = ({
 }) => {
   const { key } = useParams();
   const { data: ticket, mutate } = useFetchTicketDetails(key as string);
+
+  useEffect(() => {
+    const listener = EventBus.addListener(events.TICKET_UPDATED, () => {
+      mutate();
+    });
+
+    return () => {
+      listener.removeListener();
+    };
+  }, [mutate]);
 
   return (
     <TicketDetailsContext.Provider value={{ ticket: ticket!, mutate }}>

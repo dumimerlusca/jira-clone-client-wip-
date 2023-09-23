@@ -10,7 +10,7 @@ export const TopBar = ({ width }: { width: number }) => {
 
   return (
     <nav
-      className="fixed right-0 top-0 bg-white w-full flex items-center z-50 overflow-hidden"
+      className="fixed right-0 top-0 bg-primary w-full flex items-center z-50 overflow-hidden"
       style={{ width: `calc(100% - ${width}px)` }}
     >
       <div className="flex items-center w-full px-5 h-[70px]">
@@ -22,7 +22,7 @@ export const TopBar = ({ width }: { width: number }) => {
           }}
           className="ml-auto"
         >
-          <Logout sx={{ color: "var(--color-primary)" }} />
+          <Logout sx={{ color: "white" }} />
         </button>
       </div>
     </nav>

@@ -1,6 +1,7 @@
 import { Button, ButtonGroup } from "@mui/material";
 import { useState } from "react";
 import CommentsSection from "./comments/CommentsSection";
+import { HistorySection } from "./history/HistorySection";
 
 enum SectionId {
   comments = 0,
@@ -26,7 +27,11 @@ export const TicketActivitySection = () => {
           value={SectionId.history}
         />
       </ButtonGroup>
-      <CommentsSection />
+      {activeSection === SectionId.comments ? (
+        <CommentsSection />
+      ) : (
+        <HistorySection />
+      )}
     </section>
   );
 };

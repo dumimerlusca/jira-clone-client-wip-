@@ -1,13 +1,15 @@
 import { useUpdateTicket } from "@/api-client/tickets";
 import { TicketTypeIcon } from "@/components/icons";
+import { events } from "@/constants/events";
 import { ticketTypeList } from "@/constants/tickets";
+import EventBus from "@/util/event-bus/EventBus";
 import { Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 import { useCallback, useRef, useState } from "react";
 import { useTicketDetailsContext } from "../ticket-details-context";
 
 export const TicketTypeInput = () => {
   const [open, setOpen] = useState(false);
-  const { ticket, mutate } = useTicketDetailsContext();
+  const { ticket } = useTicketDetailsContext();
   const btnRef = useRef<HTMLButtonElement>(null);
 
   const close = useCallback(() => {
@@ -42,7 +44,7 @@ export const TicketTypeInput = () => {
                   close();
                   try {
                     await execute(ticket.id, { type: item.value });
-                    mutate();
+                    EventBus.dispatch(events.TICKET_UPDATED);
                   } catch (error) {
                     console.error(error);
                   }

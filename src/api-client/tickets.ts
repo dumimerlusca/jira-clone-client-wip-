@@ -1,6 +1,7 @@
 import { useProjectContext } from "@/context/project-context";
 import {
   Ticket,
+  TicketHistoryItem,
   TicketPriority,
   TicketStatus,
   TicketType,
@@ -65,4 +66,15 @@ export const updateTicket = async (
 
 export const useUpdateTicket = () => {
   return useAsyncFunc<typeof updateTicket>(updateTicket);
+};
+
+export const getTicketHistory = async (ticketId: string) => {
+  const { data } = await api.get(`/tickets/history/${ticketId}`);
+  return data.data;
+};
+
+export const useGetTicketHistory = (ticketId: string) => {
+  return useFetchData<TicketHistoryItem[]>(`tickets/history/${ticketId}`, () =>
+    getTicketHistory(ticketId)
+  );
 };

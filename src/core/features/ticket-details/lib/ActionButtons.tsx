@@ -11,12 +11,14 @@ export const ActionButtons = ({
     <div className="absolute -bottom-1 right-0 translate-y-full flex gap-1">
       <button
         onClick={reject}
+        type="button"
         className="bg-white rounded-md shadow-md p-1 flex items-center justify-center hover:bg-primary/5"
       >
         <Close />
       </button>
       <button
         onClick={accept}
+        type="button"
         className="bg-white rounded-md shadow-md p-1 flex items-center justify-center hover:bg-gray-200"
       >
         <Check />

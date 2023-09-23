@@ -1,5 +1,7 @@
 import { useUpdateTicket } from "@/api-client/tickets";
+import { events } from "@/constants/events";
 import { TicketStatus } from "@/types/tickets";
+import EventBus from "@/util/event-bus/EventBus";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { capitalize } from "lodash";
 import { useCallback, useRef, useState } from "react";
@@ -44,7 +46,7 @@ export const StatusInput = () => {
                 handleClose();
                 try {
                   await execute(ticket.id, { status: item });
-                  mutate();
+                  EventBus.dispatch(events.TICKET_UPDATED);
                 } catch (error) {
                   console.error(error);
                 }

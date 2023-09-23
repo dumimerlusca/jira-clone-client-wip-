@@ -1,7 +1,9 @@
 import { useUpdateTicket } from "@/api-client/tickets";
 import { TicketPriorityIcon } from "@/components/icons";
+import { events } from "@/constants/events";
 import { ticketPriorityList } from "@/constants/tickets";
 import { TicketPriority } from "@/types/tickets";
+import EventBus from "@/util/event-bus/EventBus";
 import { getTicketPriorityLabel } from "@/util/helpers/misc.helpers";
 import { Button, Menu, MenuItem, Typography, capitalize } from "@mui/material";
 import { useCallback, useRef, useState } from "react";
@@ -49,7 +51,7 @@ export const PriorityInput = ({
               onClick={async () => {
                 try {
                   await execute(ticketId, { priority: item.value });
-                  mutate();
+                  EventBus.dispatch(events.TICKET_UPDATED);
                   onClose();
                 } catch (error) {
                   console.error(error);

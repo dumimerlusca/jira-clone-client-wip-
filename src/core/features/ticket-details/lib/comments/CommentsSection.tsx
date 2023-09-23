@@ -1,10 +1,13 @@
 import { AddComment } from "./AddComment";
+import { CommentsList } from "./CommentsList";
+import { CommentsContextProvider } from "./comments-context";
 
 const CommentsSection = () => {
   return (
-    <div>
+    <CommentsContextProvider>
       <AddComment />
-    </div>
+      <CommentsList />
+    </CommentsContextProvider>
   );
 };
 
