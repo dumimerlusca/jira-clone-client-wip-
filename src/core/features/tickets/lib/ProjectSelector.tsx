@@ -1,44 +1,47 @@
 import { useProjectContext } from "@/context/project-context";
-import { AllOption } from "@/types/project";
 import { FormControl, MenuItem, Select, Typography } from "@mui/material";
 
-export const ActiveProjectSelector = ({
+export const ProjectSelector = ({
+  selectedProjectId,
+  onChange,
   className,
 }: {
+  selectedProjectId?: string;
+  onChange: (projectId: string) => void;
   className?: string;
 }) => {
-  const { projects, activeProject, selectProject, all } = useProjectContext();
+  const { projects } = useProjectContext();
+
+  const selectedProject = projects.find(
+    (item) => item.id === selectedProjectId
+  );
 
   return (
     <div className="bg-white rounded-md">
-      <FormControl color="info" error={!activeProject && !all}>
+      <FormControl color="info" error={!selectedProjectId}>
         <Select
           size="small"
           displayEmpty
           native={false}
           className={className}
-          value={all ? AllOption : activeProject?.id ?? ""}
+          value={selectedProjectId}
           variant="outlined"
           renderValue={(selected) => {
             if (!selected) {
               return (
                 <em className={"font-light text-xs text-red-600"}>
-                  SELECT ACTIVE PROJECT
+                  SELECT PROJECT
                 </em>
               );
             }
 
-            if (selected === AllOption) {
-              return "ALL";
-            }
-            return activeProject?.name;
+            return selectedProject?.name;
           }}
           sx={{ color: "var(--color-primary)" }}
           onChange={(e) => {
-            selectProject(e.target.value as any);
+            onChange(e.target.value as string);
           }}
         >
-          {projects.length > 1 && <MenuItem value={AllOption}>ALL</MenuItem>}
           {projects.map((project) => {
             return (
               <MenuItem key={project.id} value={project.id}>

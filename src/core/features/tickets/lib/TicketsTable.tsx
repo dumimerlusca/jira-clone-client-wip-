@@ -4,11 +4,15 @@ import { HeaderCell } from "@/components/table/HeaderCell";
 import { events } from "@/constants/events";
 import { Ticket } from "@/types/tickets";
 import EventBus from "@/util/event-bus/EventBus";
-import { formatDate } from "@/util/helpers/misc.helpers";
 import { Button, Tooltip, Typography } from "@mui/material";
-import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  ColumnSort,
+  createColumnHelper,
+} from "@tanstack/react-table";
+import moment from "moment";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AssigneeCell } from "./cols/AssigneeCell";
 import { PriorityColumn } from "./cols/PriorityColumn";
 import { TypeColumn } from "./cols/TypeColumn";
@@ -16,7 +20,11 @@ import { TypeColumn } from "./cols/TypeColumn";
 const columnHelper = createColumnHelper<Ticket>();
 
 export const TicketsTable = () => {
-  const { data = [], mutate } = useFetchTickets();
+  const [sort, setSort] = useState<ColumnSort | undefined>(undefined);
+
+  const { data = [], mutate } = useFetchTickets({
+    order: sort ? `${sort.id}.${sort.desc ? "desc" : "asc"}` : undefined,
+  });
 
   const columns = useColumns();
 
@@ -30,7 +38,16 @@ export const TicketsTable = () => {
     };
   }, [mutate]);
 
-  return <DataTable className="min-w-[1000px]" data={data} columns={columns} />;
+  return (
+    <DataTable
+      onSortingChange={(sorting) => {
+        setSort(sorting[0]);
+      }}
+      className="min-w-[1000px]"
+      data={data}
+      columns={columns}
+    />
+  );
 };
 
 const useColumns = () => {
@@ -40,15 +57,15 @@ const useColumns = () => {
     () =>
       [
         columnHelper.accessor("type", {
-          header() {
-            return <HeaderCell label="Type" />;
+          header(props) {
+            return <HeaderCell label="Type" {...props} />;
           },
           cell: (info) => <TypeColumn type={info.getValue()} />,
           footer: (info) => info.column.id,
         }),
         columnHelper.accessor("key", {
-          header() {
-            return <HeaderCell label="Key" />;
+          header(props) {
+            return <HeaderCell label="Key" {...props} />;
           },
           cell: (info) => {
             const key = info.getValue();
@@ -58,7 +75,7 @@ const useColumns = () => {
                   onClick={() => {
                     router.push(`/tickets/${key}`);
                   }}
-                  className="whitespace-nowrap"
+                  className="whitespace-nowrap text-sm"
                   variant="text"
                 >
                   {key}
@@ -69,13 +86,13 @@ const useColumns = () => {
           footer: (info) => info.column.id,
         }),
         columnHelper.accessor("title", {
-          header() {
-            return <HeaderCell label="Summary" />;
+          header(props) {
+            return <HeaderCell {...props} label="Summary" />;
           },
           cell: (info) => (
             <div className="max-w-[300px]">
               <Tooltip arrow title={info.getValue()}>
-                <Typography className="whitespace-nowrap truncate">
+                <Typography className="text-sm whitespace-nowrap truncate">
                   {info.getValue()}
                 </Typography>
               </Tooltip>
@@ -83,40 +100,50 @@ const useColumns = () => {
           ),
         }),
         columnHelper.accessor("priority", {
-          header() {
-            return <HeaderCell label="Priority" />;
+          header(props) {
+            return <HeaderCell label="Priority" {...props} />;
           },
           cell: (info) => <PriorityColumn priority={info.getValue()} />,
           footer: (info) => info.column.id,
         }),
         columnHelper.accessor("status", {
-          header() {
-            return <HeaderCell label="Status" />;
+          header(props) {
+            return <HeaderCell label="Status" {...props} />;
           },
         }),
         columnHelper.accessor("assignee", {
-          header() {
-            return <HeaderCell label="Assignee" />;
+          header(props) {
+            return <HeaderCell label="Assignee" {...props} />;
           },
           cell: (info) => <AssigneeCell user={info.getValue()} />,
         }),
         columnHelper.accessor("creator", {
-          header() {
-            return <HeaderCell label="Created By" />;
+          header(props) {
+            return <HeaderCell label="Created By" {...props} />;
           },
           cell: (info) => <AssigneeCell user={info.getValue()} />,
         }),
         columnHelper.accessor("created_at", {
-          header() {
-            return <HeaderCell label="Created" />;
+          header(props) {
+            return <HeaderCell label="Created" {...props} />;
           },
           cell: (info) => (
-            <div className="whitespace-nowrap">
-              {formatDate(info.getValue())}
+            <div className="text-sm whitespace-nowrap">
+              {moment(info.getValue()).fromNow()}
             </div>
           ),
         }),
-      ] as ColumnDef<any>[],
+        columnHelper.accessor("updated_at", {
+          header(props) {
+            return <HeaderCell label="Updated" {...props} />;
+          },
+          cell: (info) => (
+            <div className="text-sm whitespace-nowrap">
+              {moment(info.getValue()).fromNow()}
+            </div>
+          ),
+        }),
+      ] as ColumnDef<Ticket>[],
     [router]
   );
   return columns;

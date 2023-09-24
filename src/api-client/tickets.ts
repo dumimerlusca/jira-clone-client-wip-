@@ -6,19 +6,28 @@ import {
   TicketStatus,
   TicketType,
 } from "@/types/tickets";
+import { toQueryString } from "@/util/helpers/misc.helpers";
 import { useAsyncFunc, useFetchData } from "@/util/hooks";
 import { api } from "./instance";
 
-export const fetchTickets = async (projectId: string) => {
-  const { data } = await api.get(`/projects/${projectId}/tickets`);
+export const fetchTickets = async (
+  projectId?: string,
+  query?: { order?: string }
+) => {
+  const q = {
+    ...query,
+    projectId: projectId,
+  };
+
+  const { data } = await api.get(`/tickets?${toQueryString(q)}`);
   return data.data;
 };
 
-export const useFetchTickets = () => {
+export const useFetchTickets = (query?: { order?: string }) => {
   const { projectId } = useProjectContext();
 
-  return useFetchData<Ticket[]>([projectId, "tickets"], () =>
-    fetchTickets(projectId!)
+  return useFetchData<Ticket[]>([projectId, "tickets", query], () =>
+    fetchTickets(projectId, query)
   );
 };
 

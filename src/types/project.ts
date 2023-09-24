@@ -6,3 +6,5 @@ export type Project = {
   created_by_id: string;
   created_at: string;
 };
+
+export const AllOption = "all";

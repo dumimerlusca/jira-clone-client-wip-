@@ -1,6 +1,7 @@
 import {
   ColumnDef,
   Row,
+  SortingState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
@@ -8,12 +9,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 
 type DataTableProps = {
   data: any[];
   columns: ColumnDef<any, any>[];
   className?: string;
   onRowClick?: (row: Row<any>) => void;
+  onSortingChange?: (sorting: SortingState) => void;
 };
 
 export const DataTable: React.FC<DataTableProps> = ({
@@ -21,15 +24,25 @@ export const DataTable: React.FC<DataTableProps> = ({
   columns,
   className,
   onRowClick,
+  onSortingChange,
 }) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     columns: columns,
     data: data,
+    state: { sorting },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     manualPagination: true,
+    manualSorting: true,
+    onSortingChange: setSorting,
   });
+
+  useEffect(() => {
+    onSortingChange?.(sorting);
+  }, [onSortingChange, sorting]);
 
   return (
     <div>
@@ -41,7 +54,10 @@ export const DataTable: React.FC<DataTableProps> = ({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr className="contents" key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <th
+                  key={header.id}
+                  className="border-solid border-0 border-b border-gray-400"
+                >
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -67,7 +83,7 @@ export const DataTable: React.FC<DataTableProps> = ({
             >
               {row.getVisibleCells().map((cell) => (
                 <td
-                  className="text-center p-5 group-hover:bg-gray-200 first-of-type:rounded-l-md last-of-type:rounded-r-md"
+                  className="text-center flex items-center justify-center p-2 group-hover:bg-gray-200 first-of-type:rounded-l-md last-of-type:rounded-r-md"
                   key={cell.id}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

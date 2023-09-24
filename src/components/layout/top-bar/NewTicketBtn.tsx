@@ -6,7 +6,7 @@ import { useState } from "react";
 const NewTicketBtn = ({ classNames }: { classNames?: string }) => {
   const [open, setOpen] = useState(false);
 
-  const { projectId } = useProjectContext();
+  const { projects } = useProjectContext();
 
   return (
     <>
@@ -20,9 +20,9 @@ const NewTicketBtn = ({ classNames }: { classNames?: string }) => {
         onClick={() => {
           setOpen(true);
         }}
-        disabled={!projectId}
         className={classNames}
         color="info"
+        disabled={projects.length === 0}
         variant="contained"
       >
         New Ticket

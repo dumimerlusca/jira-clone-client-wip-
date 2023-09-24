@@ -16,3 +16,22 @@ export function getTicketPriorityLabel(priority: TicketPriority) {
 
   return String(priority);
 }
+
+export function toQueryString(obj: Record<string, any> | undefined) {
+  const values: string[] = [];
+
+  if (!obj) return "";
+
+  Object.keys(obj).forEach((key) => {
+    const val = obj[key];
+
+    if (!val) {
+      return;
+    }
+
+    const queryVal = `${key}=${val}`;
+    values.push(queryVal);
+  });
+
+  return values.join("&");
+}

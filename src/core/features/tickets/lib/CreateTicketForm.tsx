@@ -1,5 +1,4 @@
 import { useCreateTicket } from "@/api-client/tickets";
-import { ActiveProjectSelector } from "@/components/layout/top-bar/ActiveProjectSelector";
 import { ticketPriorityList, ticketTypeList } from "@/constants/tickets";
 import { useProjectContext } from "@/context/project-context";
 import { TicketPriority, TicketStatus, TicketType } from "@/types/tickets";
@@ -18,15 +17,23 @@ import {
 import classNames from "classnames";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { ProjectSelector } from "./ProjectSelector";
 
 export const CreateTicketForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const { execute, isLoading, error, success } = useCreateTicket();
   const { projectId } = useProjectContext();
 
-  const { handleBlur, handleChange, errors, values, handleSubmit } = useFormik({
-    onSubmit: async (values) => {
+  const {
+    handleBlur,
+    handleChange,
+    errors,
+    values,
+    handleSubmit,
+    setFieldValue,
+  } = useFormik({
+    onSubmit: async ({ projectId, ...rest }) => {
       try {
-        await execute(projectId!, values);
+        await execute(projectId!, rest);
         onSuccess?.();
       } catch (error) {
         console.log(error);
@@ -39,6 +46,7 @@ export const CreateTicketForm = ({ onSuccess }: { onSuccess?: () => void }) => {
       status: TicketStatus.open,
       story_points: 0,
       type: TicketType.bug,
+      projectId: projectId,
     },
     validationSchema: getValidationSchema(),
   });
@@ -48,7 +56,12 @@ export const CreateTicketForm = ({ onSuccess }: { onSuccess?: () => void }) => {
       <Stack spacing={2}>
         <div className="flex items-center gap-5">
           <Typography className="text-primary">Project:</Typography>
-          <ActiveProjectSelector />
+          <ProjectSelector
+            selectedProjectId={values.projectId}
+            onChange={(id) => {
+              setFieldValue("projectId", id);
+            }}
+          />
         </div>
         <TextField
           size="small"
@@ -172,5 +185,6 @@ function getValidationSchema() {
     description: yup.string().required("Required"),
     priority: yup.number().required("Required"),
     type: yup.string().required("Required"),
+    projectId: yup.string().required("Required"),
   });
 }

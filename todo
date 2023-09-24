@@ -1,0 +1,7 @@
+DASHBOARD - card with all issues assigned to current user ( no )
+
+OTHER
+
+- posibility to link tickets
+- posibility to display tickets for all projects at once ( project id will be sent as query parameter, and will be optional )
+- add filtering for tickets table
