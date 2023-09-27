@@ -1,4 +1,5 @@
 import { useFetchTickets } from "@/api-client/tickets";
+import { useFiltersContext } from "@/components/filters";
 import { DataTable } from "@/components/table/DataTable";
 import { HeaderCell } from "@/components/table/HeaderCell";
 import { events } from "@/constants/events";
@@ -10,6 +11,7 @@ import {
   ColumnSort,
   createColumnHelper,
 } from "@tanstack/react-table";
+import { isNil } from "lodash";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -22,8 +24,24 @@ const columnHelper = createColumnHelper<Ticket>();
 export const TicketsTable = () => {
   const [sort, setSort] = useState<ColumnSort | undefined>(undefined);
 
+  const { activeValues } = useFiltersContext();
+
+  const queryFilters = useMemo(
+    () =>
+      Object.keys(activeValues).reduce((acc, key) => {
+        const val = activeValues[key];
+        if (val === "" || isNil(val)) {
+          return acc;
+        }
+
+        return { ...acc, [key]: val };
+      }, {}),
+    [activeValues]
+  );
+
   const { data = [], mutate } = useFetchTickets({
     order: sort ? `${sort.id}.${sort.desc ? "desc" : "asc"}` : undefined,
+    ...queryFilters,
   });
 
   const columns = useColumns();

@@ -1,4 +1,5 @@
 import { TicketPriority } from "@/types/tickets";
+import { isNil } from "lodash";
 import moment from "moment";
 
 export const formatDate = (isoDate: string) => {
@@ -25,7 +26,7 @@ export function toQueryString(obj: Record<string, any> | undefined) {
   Object.keys(obj).forEach((key) => {
     const val = obj[key];
 
-    if (!val) {
+    if (isNil(val) || val === "") {
       return;
     }
 

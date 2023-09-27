@@ -1,6 +1,7 @@
 import { ExpandLess, ExpandMore, UnfoldMore } from "@mui/icons-material";
 import { Typography } from "@mui/material";
 import { HeaderContext } from "@tanstack/react-table";
+import classNames from "classnames";
 import { useMemo } from "react";
 
 type HeaderCellProps = {
@@ -24,7 +25,10 @@ export const HeaderCell = ({ label, column }: HeaderCellProps) => {
       onClick={() => {
         column.toggleSorting();
       }}
-      className="p-2 rounded-md text-gray-900 whitespace-nowrap flex items-center justify-center"
+      className={classNames(
+        "p-2 rounded-md text-gray-900 whitespace-nowrap flex items-center justify-center",
+        { "cursor-pointer": canSort }
+      )}
     >
       <Typography className="font-semibold text-xs ">{label}</Typography>
       {canSort && sortIcon}
