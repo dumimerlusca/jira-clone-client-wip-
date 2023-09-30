@@ -46,11 +46,11 @@ export const HistorySection = () => {
                   </Typography>
                   <div className="flex gap-5 mt-2 items-center">
                     <div className="text-gray-600">
-                      {item.from?.displayValue ?? "None"}
+                      {item.from?.displayValue || "None"}
                     </div>
                     <div className="font-semibold text-gray-600 whitespace-nowrap">{`-->`}</div>
                     <div className="text-gray-600">
-                      {item.to?.displayValue ?? "None"}
+                      {item.to?.displayValue || "None"}
                     </div>
                   </div>
                 </div>

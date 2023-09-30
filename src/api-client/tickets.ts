@@ -23,10 +23,23 @@ export const fetchTickets = async (
   return data.data;
 };
 
-export const useFetchTickets = (query?: { order?: string }) => {
+type GetTicketsResponse = {
+  payload: Ticket[];
+  metadata: {
+    page: number;
+    limit: number;
+    totalCount: number;
+  };
+};
+
+export const useFetchTickets = (query?: {
+  order?: string;
+  limit?: number;
+  page?: number;
+}) => {
   const { projectId } = useProjectContext();
 
-  return useFetchData<Ticket[]>([projectId, "tickets", query], () =>
+  return useFetchData<GetTicketsResponse>([projectId, "tickets", query], () =>
     fetchTickets(projectId, query)
   );
 };
@@ -63,6 +76,7 @@ export type UpdateTicketPayload = {
   status?: TicketStatus;
   story_points?: number;
   type?: TicketType;
+  assignee_id?: string;
 };
 
 export const updateTicket = async (

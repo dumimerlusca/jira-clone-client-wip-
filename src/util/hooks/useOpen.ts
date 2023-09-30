@@ -6,5 +6,10 @@ export const useOpen = (initialOpen = false) => {
   const close = useCallback(() => {
     setOpen(false);
   }, []);
-  return { open, setOpen, close };
+
+  const toggleOpen = useCallback(() => {
+    setOpen((prev) => !prev);
+  }, []);
+
+  return { open, setOpen, close, toggleOpen };
 };

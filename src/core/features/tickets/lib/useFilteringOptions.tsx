@@ -1,3 +1,4 @@
+import { useGetWorkspaceMembers } from "@/api-client/users";
 import { TicketPriorityIcon, TicketTypeIcon } from "@/components/icons";
 import { ticketPriorityList, ticketTypeList } from "@/constants/tickets";
 import { Filter } from "@/types/filters";
@@ -6,6 +7,10 @@ import { capitalize } from "lodash";
 import { useMemo } from "react";
 
 export const useFilteringOptions = () => {
+  const { data = [] } = useGetWorkspaceMembers();
+
+  console.log({ data });
+
   const filters = useMemo(() => {
     return [
       {
@@ -35,8 +40,17 @@ export const useFilteringOptions = () => {
           label: capitalize(item),
         })),
       },
+      {
+        label: "Assignee",
+        name: "assignee",
+        alwaysDisplay: true,
+        options: data.map((user) => ({
+          value: user.id,
+          label: user.username,
+        })),
+      },
     ] as Filter[];
-  }, []);
+  }, [data]);
 
   return filters;
 };

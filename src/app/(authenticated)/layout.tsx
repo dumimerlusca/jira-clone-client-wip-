@@ -24,7 +24,7 @@ export default function RootLayout({
               <Sidebar />
               <TopBar width={240} />
               <div className="mt-[75px] bg-gray-200 grow p-10">
-                <div className="h-[3000px]">{children}</div>
+                <div>{children}</div>
               </div>
             </main>
           </ProjectContextProvider>

@@ -1,3 +1,4 @@
+import { TablePagination } from "@mui/material";
 import {
   ColumnDef,
   Row,
@@ -17,6 +18,10 @@ type DataTableProps = {
   className?: string;
   onRowClick?: (row: Row<any>) => void;
   onSortingChange?: (sorting: SortingState) => void;
+  onPaginationChange?: (data: { page: number; rowsPerPage: number }) => void;
+  pagination?: PaginationState & {
+    count: number;
+  };
 };
 
 export const DataTable: React.FC<DataTableProps> = ({
@@ -25,6 +30,8 @@ export const DataTable: React.FC<DataTableProps> = ({
   className,
   onRowClick,
   onSortingChange,
+  pagination,
+  onPaginationChange,
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -97,6 +104,23 @@ export const DataTable: React.FC<DataTableProps> = ({
         <div className="min-h-[350px] flex items-center justify-center">
           No data
         </div>
+      )}
+      {pagination && onPaginationChange && (
+        <TablePagination
+          component="div"
+          count={pagination.count}
+          page={pagination.page}
+          onPageChange={(_, page) => {
+            onPaginationChange({ ...pagination, page });
+          }}
+          rowsPerPage={pagination.rowsPerPage}
+          onRowsPerPageChange={(e) => {
+            onPaginationChange({
+              ...pagination,
+              rowsPerPage: e.target.value as any,
+            });
+          }}
+        />
       )}
     </div>
   );

@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 
 export const Sidebar = () => {
   return (
-    <aside className="relative shrink-0 shadow-lg w-[240px] bg-primary text-white ">
+    <aside className="relative shrink-0 shadow-lg w-[240px] bg-primary text-white min-h-screen">
       <div className="sticky top-0">
         <div className="flex items-center gap-3 justify-center">
           <BugReport className="w-[50px] h-[50px]" sx={{ color: "white" }} />

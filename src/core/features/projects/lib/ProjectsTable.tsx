@@ -22,26 +22,26 @@ const useColumns = () => {
   const columns = useMemo(
     () => [
       columnHelper.accessor("key", {
-        header() {
-          return <HeaderCell label="Key" />;
+        header(props) {
+          return <HeaderCell label="Key" {...props} />;
         },
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor("name", {
-        header() {
-          return <HeaderCell label="Name" />;
+        header(props) {
+          return <HeaderCell label="Name" {...props} />;
         },
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor("created_by_id", {
-        header() {
-          return <HeaderCell label="Created by" />;
+        header(props) {
+          return <HeaderCell label="Created by" {...props} />;
         },
         cell: (info) => info.getValue(),
       }),
       columnHelper.accessor("created_at", {
-        header() {
-          return <HeaderCell label="Created at" />;
+        header(props) {
+          return <HeaderCell label="Created at" {...props} />;
         },
         cell: (info) => {
           const val = info.getValue();

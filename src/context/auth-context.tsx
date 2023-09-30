@@ -2,6 +2,7 @@
 
 import { api } from "@/api-client/instance";
 import { Initializing } from "@/components/loaders/Initializing";
+import { User } from "@/types/users";
 import {
   getAccessToken,
   removeTokenFromLocalStorage,
@@ -20,13 +21,14 @@ import {
 type AuthContext = {
   isAuthenticated: boolean;
   logout: () => void;
+  currentUser: User;
 };
 
 const AuthContext = createContext<AuthContext>({} as AuthContext);
 
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentUser, setCurrentUser] = useState<any>(undefined);
+  const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
 
   const router = useRouter();
 
@@ -43,7 +45,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     console.log("GET CURRENT USER");
     try {
       const res = await api.get("/auth/me");
-      setCurrentUser(res.data);
+      setCurrentUser(res.data.data);
       setIsAuthenticated(true);
     } catch (error) {
       console.error({ error });
@@ -71,7 +73,9 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   }, [getCurrentUser, router]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, logout, currentUser: currentUser! }}
+    >
       {isAuthenticated ? children : <Initializing />}
     </AuthContext.Provider>
   );

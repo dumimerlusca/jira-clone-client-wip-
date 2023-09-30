@@ -6,6 +6,7 @@ export type Ticket = {
   type: TicketType;
   component_id: string;
   created_at: string;
+  project_id: string;
   creator: User;
   description: string;
   assignee: User | null;

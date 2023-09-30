@@ -7,7 +7,6 @@ import EventBus from "@/util/event-bus/EventBus";
 import { getTicketPriorityLabel } from "@/util/helpers/misc.helpers";
 import { Button, Menu, MenuItem, Typography, capitalize } from "@mui/material";
 import { useCallback, useRef, useState } from "react";
-import { useTicketDetailsContext } from "../ticket-details-context";
 
 export const PriorityInput = ({
   priority,
@@ -19,8 +18,6 @@ export const PriorityInput = ({
   const [open, setOpen] = useState(false);
   const { execute } = useUpdateTicket();
   const btnRef = useRef<HTMLButtonElement>(null);
-
-  const { mutate } = useTicketDetailsContext();
 
   const onClose = useCallback(() => {
     setOpen(false);

@@ -23,6 +23,10 @@ const columnHelper = createColumnHelper<Ticket>();
 
 export const TicketsTable = () => {
   const [sort, setSort] = useState<ColumnSort | undefined>(undefined);
+  const [pagination, setPagination] = useState<PaginationState>({
+    page: 0,
+    rowsPerPage: 10,
+  });
 
   const { activeValues } = useFiltersContext();
 
@@ -39,8 +43,10 @@ export const TicketsTable = () => {
     [activeValues]
   );
 
-  const { data = [], mutate } = useFetchTickets({
+  const { data, mutate } = useFetchTickets({
     order: sort ? `${sort.id}.${sort.desc ? "desc" : "asc"}` : undefined,
+    limit: pagination.rowsPerPage,
+    page: pagination.page,
     ...queryFilters,
   });
 
@@ -62,8 +68,10 @@ export const TicketsTable = () => {
         setSort(sorting[0]);
       }}
       className="min-w-[1000px]"
-      data={data}
+      data={data?.payload ?? []}
       columns={columns}
+      onPaginationChange={setPagination}
+      pagination={{ ...pagination, count: data?.metadata.totalCount ?? 0 }}
     />
   );
 };

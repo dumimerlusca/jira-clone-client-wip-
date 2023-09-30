@@ -1,10 +1,11 @@
 "use client";
 
 import { UserAvatar } from "@/components/icons/UserAvatar";
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import classNames from "classnames";
 import { PropsWithChildren } from "react";
 import { TicketActivitySection } from "./TicketActivitySection";
+import { AssigneeInput } from "./inputs/AssigneeInput";
 import { DescriptionInput } from "./inputs/DescriptionInput";
 import { PriorityInput } from "./inputs/PriorityInput";
 import { StatusInput } from "./inputs/StatusInput";
@@ -41,18 +42,21 @@ export const TicketDetailsPanel = () => {
 
             <FieldItemName name="Assignee" />
             <FildItemValueNode>
-              <div className="flex gap-3 items-center ">
-                <UserAvatar />
-                <Typography>{ticket.creator.username}</Typography>
-              </div>
+              <AssigneeInput
+                ticketId={ticket.id}
+                projectId={ticket.project_id}
+                assignee={ticket.assignee}
+              />
             </FildItemValueNode>
 
             <FieldItemName name="Creator" />
             <FildItemValueNode>
-              <div className="flex gap-3 items-center ">
+              <Button disabled className="flex items-center gap-3">
                 <UserAvatar />
-                <Typography>{ticket.creator.username}</Typography>
-              </div>
+                <Typography className="text-md text-gray-900 normal-case">
+                  {ticket.creator.username}
+                </Typography>
+              </Button>
             </FildItemValueNode>
 
             <FieldItemName name="Priority" />

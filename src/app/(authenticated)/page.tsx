@@ -1,5 +1,5 @@
-import HomePage from "./HomePage";
+import { DashboardPanel } from "@/core/features/dashboard";
 
 export default function Home() {
-  return <HomePage />;
+  return <DashboardPanel />;
 }
