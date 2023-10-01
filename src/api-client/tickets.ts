@@ -101,3 +101,43 @@ export const useGetTicketHistory = (ticketId: string) => {
     getTicketHistory(ticketId)
   );
 };
+
+export const getImportantTickets = async () => {
+  const { data } = await api.get("/important-tickets");
+  return data.data;
+};
+
+export const useGetImportantTickets = () => {
+  return useFetchData<Ticket[]>("/important-tickets", getImportantTickets);
+};
+
+export const createImportantTicket = (ticketId: string) => {
+  return api.post(`/important-tickets/create`, { ticketId: ticketId });
+};
+
+export const useCreateImportantTicket = () => {
+  return useAsyncFunc<typeof createImportantTicket>(createImportantTicket);
+};
+
+export const deleteImportantTicket = (ticketId: string) => {
+  return api.delete(`/important-tickets/delete/${ticketId}`);
+};
+
+export const useDeleteImportantTicket = () => {
+  return useAsyncFunc<typeof deleteImportantTicket>(deleteImportantTicket);
+};
+
+export const fetchOverallTicketsStats = async (projectId?: string) => {
+  const { data } = await api.get(
+    `/stats/tickets?${toQueryString({ projectId })}`
+  );
+
+  return data.data;
+};
+
+export const useFetchOverallTicketsStats = (projectId?: string) => {
+  return useFetchData<Record<string, number>>(
+    [`/stats/tickets`, projectId],
+    () => fetchOverallTicketsStats(projectId)
+  );
+};

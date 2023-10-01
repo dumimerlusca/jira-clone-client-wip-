@@ -1,16 +1,13 @@
-import { Card, CardContent } from "@mui/material";
+import { ImportantTicketsCard } from "./cards/ImportantTicketsCard";
 import { MyTicketsCard } from "./cards/MyTicketsCard";
+import { TicketsStatsPieCard } from "./cards/TicketsStatsPieCard";
 
 export const DashboardPanel = () => {
   return (
     <div className="grid grid-cols-2 gap-5">
-      <Card variant="elevation">
-        <CardContent>Pie chart with all statuses of projects</CardContent>
-      </Card>
+      <TicketsStatsPieCard />
       <MyTicketsCard />
-      <Card variant="elevation">
-        <CardContent>Important tickets</CardContent>
-      </Card>
+      <ImportantTicketsCard />
     </div>
   );
 };

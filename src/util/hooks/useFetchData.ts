@@ -1,3 +1,5 @@
+"use client";
+
 import { isNil } from "lodash";
 import { useCallback } from "react";
 import useSWR, {

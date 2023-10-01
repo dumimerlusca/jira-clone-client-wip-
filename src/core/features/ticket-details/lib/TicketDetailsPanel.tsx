@@ -5,6 +5,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import classNames from "classnames";
 import { PropsWithChildren } from "react";
 import { TicketActivitySection } from "./TicketActivitySection";
+import { ToggleImportantBtn } from "./ToggleImportantBtn";
 import { AssigneeInput } from "./inputs/AssigneeInput";
 import { DescriptionInput } from "./inputs/DescriptionInput";
 import { PriorityInput } from "./inputs/PriorityInput";
@@ -26,6 +27,7 @@ export const TicketDetailsPanel = () => {
             <Typography className="whitespace-nowrap text-sm text-gray-600">
               {ticket.key}
             </Typography>
+            <ToggleImportantBtn ticketId={ticket.id} className="ml-auto" />
           </div>
           <Stack spacing={3}>
             <TitleInput />

@@ -5,6 +5,7 @@ import { HeaderCell } from "@/components/table/HeaderCell";
 import { events } from "@/constants/events";
 import { Ticket } from "@/types/tickets";
 import EventBus from "@/util/event-bus/EventBus";
+import { getParameterByName } from "@/util/helpers/misc.helpers";
 import { Button, Tooltip, Typography } from "@mui/material";
 import {
   ColumnDef,
@@ -28,7 +29,7 @@ export const TicketsTable = () => {
     rowsPerPage: 10,
   });
 
-  const { activeValues } = useFiltersContext();
+  const { activeValues, applyFilter } = useFiltersContext();
 
   const queryFilters = useMemo(
     () =>
@@ -62,6 +63,14 @@ export const TicketsTable = () => {
     };
   }, [mutate]);
 
+  useEffect(() => {
+    const status = getParameterByName("status");
+
+    if (status !== "") {
+      applyFilter("status", status);
+    }
+  }, [applyFilter]);
+
   return (
     <DataTable
       onSortingChange={(sorting) => {
@@ -71,7 +80,7 @@ export const TicketsTable = () => {
       data={data?.payload ?? []}
       columns={columns}
       onPaginationChange={setPagination}
-      pagination={{ ...pagination, count: data?.metadata.totalCount ?? 0 }}
+      pagination={{ ...pagination, count: data?.metadata?.totalCount ?? 0 }}
     />
   );
 };

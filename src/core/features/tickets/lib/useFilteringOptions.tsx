@@ -9,8 +9,6 @@ import { useMemo } from "react";
 export const useFilteringOptions = () => {
   const { data = [] } = useGetWorkspaceMembers();
 
-  console.log({ data });
-
   const filters = useMemo(() => {
     return [
       {

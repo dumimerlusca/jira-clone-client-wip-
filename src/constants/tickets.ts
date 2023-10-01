@@ -1,4 +1,4 @@
-import { TicketPriority, TicketType } from "@/types/tickets";
+import { TicketPriority, TicketStatus, TicketType } from "@/types/tickets";
 
 export const ticketPriorityList = [
   {
@@ -32,3 +32,12 @@ export const ticketTypeList = [
   { value: TicketType.design, label: "Design" },
   { value: TicketType.epic, label: "Epic" },
 ];
+
+export const ticketStatusColorMap = {
+  [TicketStatus.open]: "#67e6dd",
+  [TicketStatus.underDevelopment]: "#3e9e98",
+  [TicketStatus.underReview]: "#6091d1",
+  [TicketStatus.deployedToDev]: "#5f4cd9",
+  [TicketStatus.tested]: "#5fba6e",
+  [TicketStatus.closed]: "#508058",
+};

@@ -36,3 +36,15 @@ export function toQueryString(obj: Record<string, any> | undefined) {
 
   return values.join("&");
 }
+
+export function getParameterByName(name: string, url?: string) {
+  if (!url) {
+    url = window.location.href;
+  }
+  name = name.replace(/[[\]]/g, "\\$&");
+  const regex = new RegExp("[?&amp;]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2]);
+}
