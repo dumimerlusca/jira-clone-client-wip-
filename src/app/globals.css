@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --color-primary-tw: 74 4 45;
+    --color-primary-tw: 53 47 68;
     --color-secondary-tw: 38 38 38;
 
     --color-primary: rgb(var(--color-primary-tw));

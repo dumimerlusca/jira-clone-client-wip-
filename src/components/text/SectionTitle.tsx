@@ -12,7 +12,7 @@ export const SectionTitle = ({
     <Typography
       gutterBottom
       variant="h5"
-      className={classNames("font-medium text-gray-800", className)}
+      className={classNames("font-semibold text-gray-800 p-3", className)}
     >
       {text}
     </Typography>

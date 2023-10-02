@@ -1,6 +1,7 @@
 import { useProjectContext } from "@/context/project-context";
 import { AllOption } from "@/types/project";
 import { FormControl, MenuItem, Select, Typography } from "@mui/material";
+import classNames from "classnames";
 
 export const ActiveProjectSelector = ({
   className,
@@ -10,13 +11,17 @@ export const ActiveProjectSelector = ({
   const { projects, activeProject, selectProject, all } = useProjectContext();
 
   return (
-    <div className="bg-white rounded-md">
-      <FormControl color="info" error={!activeProject && !all}>
+    <div className={classNames("rounded-md bg-blue-400", className)}>
+      <FormControl
+        className="w-full"
+        color="primary"
+        error={!activeProject && !all}
+      >
         <Select
           size="small"
           displayEmpty
+          color="primary"
           native={false}
-          className={className}
           value={all ? AllOption : activeProject?.id ?? ""}
           variant="outlined"
           renderValue={(selected) => {
@@ -33,7 +38,7 @@ export const ActiveProjectSelector = ({
             }
             return activeProject?.name;
           }}
-          sx={{ color: "var(--color-primary)" }}
+          sx={{ color: "white" }}
           onChange={(e) => {
             selectProject(e.target.value as any);
           }}

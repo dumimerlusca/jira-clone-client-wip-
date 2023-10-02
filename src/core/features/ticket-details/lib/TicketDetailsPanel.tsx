@@ -27,7 +27,11 @@ export const TicketDetailsPanel = () => {
             <Typography className="whitespace-nowrap text-sm text-gray-600">
               {ticket.key}
             </Typography>
-            <ToggleImportantBtn ticketId={ticket.id} className="ml-auto" />
+            <ToggleImportantBtn
+              isImportant={!!ticket.important}
+              ticketId={ticket.id}
+              className="ml-auto"
+            />
           </div>
           <Stack spacing={3}>
             <TitleInput />

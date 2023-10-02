@@ -15,6 +15,7 @@ export type Ticket = {
   title: string;
   updated_at: string;
   priority: TicketPriority;
+  important?: boolean;
 };
 
 export enum TicketPriority {

@@ -2,7 +2,6 @@
 
 import { Logout } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
-import { ActiveProjectSelector } from "./ActiveProjectSelector";
 import NewTicketBtn from "./NewTicketBtn";
 
 export const TopBar = ({ width }: { width: number }) => {
@@ -14,7 +13,6 @@ export const TopBar = ({ width }: { width: number }) => {
       style={{ width: `calc(100% - ${width}px)` }}
     >
       <div className="flex items-center w-full px-5 h-[70px]">
-        <ActiveProjectSelector className="ml-auto" />
         <NewTicketBtn classNames="ml-auto" />
         <button
           onClick={() => {

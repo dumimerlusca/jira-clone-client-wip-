@@ -45,7 +45,7 @@ export const CreateTicketForm = ({ onSuccess }: { onSuccess?: () => void }) => {
       priority: TicketPriority.medium,
       status: TicketStatus.open,
       story_points: 0,
-      type: TicketType.bug,
+      type: TicketType.story,
       projectId: projectId,
     },
     validationSchema: getValidationSchema(),

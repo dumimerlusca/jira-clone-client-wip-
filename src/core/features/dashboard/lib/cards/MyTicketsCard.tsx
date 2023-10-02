@@ -29,7 +29,7 @@ export const MyTicketsCard = () => {
           No tickets
         </Typography>
       )}
-      <ul>
+      <ul className="max-h-[300px] overflow-auto">
         {tickets.map((ticket) => {
           return (
             <CardTicketListItem

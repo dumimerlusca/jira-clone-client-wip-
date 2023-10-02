@@ -1,6 +1,5 @@
 "use client";
 
-import { NewProjectBtn } from "@/core/features/projects";
 import {
   AccountTree,
   BugReport,
@@ -10,6 +9,7 @@ import {
 } from "@mui/icons-material";
 import { Divider } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { ActiveProjectSelector } from "../top-bar/ActiveProjectSelector";
 
 export const Sidebar = () => {
   return (
@@ -21,7 +21,10 @@ export const Sidebar = () => {
         </div>
 
         <nav className="w-full mt-20">
-          <ul className="list-none">
+          <div className="px-2">
+            <ActiveProjectSelector />
+          </div>
+          <ul className="list-none ">
             <Divider />
             <NavItem icon={Dashboard} to="/" label="Dashboard" />
             <Divider />
@@ -34,9 +37,6 @@ export const Sidebar = () => {
             <NavItem icon={AccountTree} to="/projects" label="Your Projects" />
           </ul>
         </nav>
-        <div className="px-2 mt-10">
-          <NewProjectBtn className="w-full" />
-        </div>
       </div>
     </aside>
   );
