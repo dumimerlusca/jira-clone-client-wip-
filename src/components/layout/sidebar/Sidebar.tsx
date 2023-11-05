@@ -8,7 +8,9 @@ import {
   People,
 } from "@mui/icons-material";
 import { Divider } from "@mui/material";
-import { useRouter } from "next/navigation";
+import classNames from "classnames";
+import { usePathname, useRouter } from "next/navigation";
+import { useMemo } from "react";
 import { ActiveProjectSelector } from "../top-bar/ActiveProjectSelector";
 
 export const Sidebar = () => {
@@ -20,7 +22,7 @@ export const Sidebar = () => {
           <h2 className="font-semibold text-white">Bug Tracker</h2>
         </div>
 
-        <nav className="w-full mt-20">
+        <nav className="w-full mt-20 space-y-5">
           <div className="px-2">
             <ActiveProjectSelector />
           </div>
@@ -52,12 +54,23 @@ const NavItem = ({
   icon: any;
 }) => {
   const router = useRouter();
+  const path = usePathname();
+
+  const active = useMemo(() => {
+    if (path.includes("tickets") && to.includes("tickets")) return true;
+    if (path.includes("projects") && to.includes("projects")) return true;
+    return path === to;
+  }, [path, to]);
+
   return (
     <li
       onClick={() => {
         router.push(to);
       }}
-      className="p-5 hover:opacity-50 cursor-pointer font-semibold flex items-center gap-3"
+      className={classNames(
+        " p-5 hover:opacity-50 cursor-pointer font-semibold flex items-center gap-3",
+        { "bg-gray-800": active }
+      )}
     >
       <Icon />
       {label}

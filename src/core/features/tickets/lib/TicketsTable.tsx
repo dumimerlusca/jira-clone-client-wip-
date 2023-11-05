@@ -97,6 +97,7 @@ const useColumns = () => {
           },
           cell: (info) => <TypeColumn type={info.getValue()} />,
           footer: (info) => info.column.id,
+          enableSorting: true,
         }),
         columnHelper.accessor("key", {
           header(props) {
@@ -119,6 +120,7 @@ const useColumns = () => {
             );
           },
           footer: (info) => info.column.id,
+          enableSorting: true,
         }),
         columnHelper.accessor("title", {
           header(props) {
@@ -133,6 +135,7 @@ const useColumns = () => {
               </Tooltip>
             </div>
           ),
+          enableSorting: true,
         }),
         columnHelper.accessor("priority", {
           header(props) {
@@ -140,11 +143,13 @@ const useColumns = () => {
           },
           cell: (info) => <PriorityColumn priority={info.getValue()} />,
           footer: (info) => info.column.id,
+          enableSorting: true,
         }),
         columnHelper.accessor("status", {
           header(props) {
             return <HeaderCell label="Status" {...props} />;
           },
+          enableSorting: true,
         }),
         columnHelper.accessor("assignee", {
           header(props) {
@@ -167,6 +172,7 @@ const useColumns = () => {
               {moment(info.getValue()).fromNow()}
             </div>
           ),
+          enableSorting: true,
         }),
         columnHelper.accessor("updated_at", {
           header(props) {
@@ -177,6 +183,7 @@ const useColumns = () => {
               {moment(info.getValue()).fromNow()}
             </div>
           ),
+          enableSorting: true,
         }),
       ] as ColumnDef<Ticket>[],
     [router]

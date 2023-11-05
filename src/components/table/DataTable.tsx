@@ -45,6 +45,9 @@ export const DataTable: React.FC<DataTableProps> = ({
     manualPagination: true,
     manualSorting: true,
     onSortingChange: setSorting,
+    defaultColumn: {
+      enableSorting: false,
+    },
   });
 
   useEffect(() => {

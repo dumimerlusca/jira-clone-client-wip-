@@ -22,7 +22,7 @@ export const NewProjectBtn = ({ className }: { className?: string }) => {
         variant="outlined"
         color="secondary"
       >
-        New Project
+        Create New Project
       </Button>
     </>
   );
